@@ -1,7 +1,7 @@
 local oldassets = require(game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l.Config)
 game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l.Config:Destroy() game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiosoC00l.Config:Clone().Parent = game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l
 game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l.Behavior:Destroy() game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiosoC00l.Behavior:Clone().Parent = game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l
-local rigsource = game:GetObjects("rbxassetid://117290281630585")[1]
+local rigsource = game:GetObjects("rbxassetid://114748682440378")[1]
 rigsource.Parent = game.ReplicatedStorage
 local emoteTrack
 local emoteSound1

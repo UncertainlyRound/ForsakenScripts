@@ -10,6 +10,7 @@ local emoting = false
 local assets = require(game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiosoC00l.Config)
 local minions = assets.Mafiasos
 local emoteButton
+local fakeEmoteButton
 
 function GetDescendants(tbl)
     local currentTbl = {}
@@ -26,20 +27,20 @@ function GetDescendants(tbl)
 end
 
 game:GetService("UserInputService").InputBegan:Connect(function(input)
-if input.KeyCode == Enum.KeyCode.G then
-emoting = false
-if emoteTrack then
-	emoteTrack:Stop()
-	emoteSound1:Stop()
-	emoteSound2:Stop()
-end
-end
+	if input.KeyCode == Enum.KeyCode.G then
+		emoting = false
+		if emoteTrack then
+			emoteTrack:Stop()
+			emoteSound1:Stop()
+			emoteSound2:Stop()
+		end
+	end
 end)
 
 function setup()
-	rig = rigsource:Clone()
+	local rig = rigsource:Clone()
 	rig.Parent = workspace
-	parttable = {}
+	local parttable = {}
 	for i, v in ipairs(rig:GetChildren()) do
 		if v:IsA("BasePart") then
 			if v.Name ~= "HumanoidRootPart" then
@@ -66,7 +67,7 @@ function setup()
 		weld.Part0 = v["new"]
 		weld.Part1 = v["Original"]
 	end
-	local connection = game.Players.LocalPlayer.Character.HumanoidRootPart.ChildAdded:Connect(function(v)
+	connection = game.Players.LocalPlayer.Character.HumanoidRootPart.ChildAdded:Connect(function(v)
 		if active then
 			if v:IsA("Sound") and table.find(GetDescendants(assets.Voicelines), v.SoundId)  then
 				v:Destroy()
@@ -82,22 +83,22 @@ function setup()
 	end)
 	game.Players.LocalPlayer.Character.Humanoid.AnimationPlayed:Connect(function(track)
 		if track.Animation.AnimationId == "rbxassetid://80139543732416" then
-				local anim = Instance.new("Animation") anim.AnimationId = "rbxassetid://117334224937914"
-				local Track = game.Players.LocalPlayer.Character.Humanoid.Animator:LoadAnimation(anim)
-				Track.Priority = Enum.AnimationPriority.Action4
-				Track:Play()
-				Track:AdjustSpeed(Track.Length/3.875)
+			local anim = Instance.new("Animation") anim.AnimationId = "rbxassetid://117334224937914"
+			local Track = game.Players.LocalPlayer.Character.Humanoid.Animator:LoadAnimation(anim)
+			Track.Priority = Enum.AnimationPriority.Action4
+			Track:Play()
+			Track:AdjustSpeed(Track.Length/3.875)
 		end
 	end)
 end
 
 function playSound(SoundId, Volume, Parent, Loop)
-local sound = Instance.new("Sound", Parent)
-sound.SoundId = SoundId
-sound.Volume = Volume
-sound.Looped = Loop
-sound:Play()
-return sound
+	local sound = Instance.new("Sound", Parent)
+	sound.SoundId = SoundId
+	sound.Volume = Volume
+	sound.Looped = Loop
+	sound:Play()
+	return sound
 end
 
 game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
@@ -109,30 +110,36 @@ game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
 		print("unactivated")
 		active = false
 	end
-wait(0.1)
-for i, v in ipairs(game.Players.LocalPlayer.PlayerGui.TopbarStandard.Holders.Left:GetChildren()) do
-	if v.Name == "Widget" then
-		if v.IconButton.Menu.IconSpot.Contents.IconLabelContainer.IconLabel.Text == "Emote" then
-			emoteButton = v.IconButton.Menu.IconSpot.ClickRegion
-			print(v.IconButton.Menu.IconSpot.Contents.IconLabelContainer.IconLabel.Text)
+	wait(0.1)
+	for i, v in ipairs(game.Players.LocalPlayer.PlayerGui.TopbarStandard.Holders.Left:GetChildren()) do
+		if v.Name == "Widget" then
+			if v.IconButton.Menu.IconSpot.Contents.IconLabelContainer.IconLabel.Text == "Emote" then
+				emoteButton = v
+				fakeEmoteButton = emoteButton:Clone()
+				fakeEmoteButton.Name = 'fake'
+				print(v.IconButton.Menu.IconSpot.Contents.IconLabelContainer.IconLabel.Text)
+			else
+				print(v.IconButton.Menu.IconSpot.Contents.IconLabelContainer.IconLabel.Text)
+			end
 		else
-			print(v.IconButton.Menu.IconSpot.Contents.IconLabelContainer.IconLabel.Text)
+			print(v.Name)
 		end
-	else
-		print(v.Name)
 	end
-end
 
-if emoteButton then
-emoteButton.MouseButton1Down:Connect(function()
-emoting = false
-if emoteTrack then
-	emoteTrack:Stop()
-	emoteSound1:Stop()
-	emoteSound2:Stop()
-end
-end)
-end
+	if fakeEmoteButton then
+		fakeEmoteButton.IconButton.Menu.IconSpot.ClickRegion.MouseButton1Down:Connect(function()
+			emoting = false
+			fakeEmoteButton.Parent = game.ReplicatedStorage
+			if emoteTrack then
+				emoteTrack:Stop()
+				emoteSound1:Stop()
+				emoteSound2:Stop()
+			end
+			if emoteButton then
+				emoteButton.Parent = game.Players.LocalPlayer.PlayerGui.TopbarStandard.Holders.Left
+			end
+		end)
+	end
 end)
 
 local hook;
@@ -149,7 +156,13 @@ hook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
             			emoteTrack.Priority = Enum.AnimationPriority.Action4
             			emoteTrack:Play()
             			emoteSound1 = playSound(assets.Emotes.Animations.Snap.SFX[1], 0.5, game.Players.LocalPlayer.Character.PrimaryPart, true)
-            			emoteSound2 = playSound(assets.Emotes.Animations.Snap.SFX[2], 0.5, game.Players.LocalPlayer.Character.PrimaryPart, true)
+						emoteSound2 = playSound(assets.Emotes.Animations.Snap.SFX[2], 0.5, game.Players.LocalPlayer.Character.PrimaryPart, true)
+						if emoteButton then
+							emoteButton.Parent = game.ReplicatedStorage
+						end
+						if fakeEmoteButton then
+							fakeEmoteButton.Parent = game.Players.LocalPlayer.PlayerGui.TopbarStandard.Holders.Left
+						end
             			repeat
             				task.wait()
             				game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 6
@@ -163,14 +176,14 @@ hook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
 end))
 
 game:GetService("UserInputService").InputBegan:Connect(function(input)
-if input.KeyCode == Enum.KeyCode.G then
-emoting = false
-if emoteTrack then
-	emoteTrack:Stop()
-	emoteSound1:Stop()
-	emoteSound2:Stop()
-end
-end
+	if input.KeyCode == Enum.KeyCode.G then
+		emoting = false
+		if emoteTrack then
+			emoteTrack:Stop()
+			emoteSound1:Stop()
+			emoteSound2:Stop()
+		end
+	end
 end)
 
 workspace.Map.Ingame.ChildAdded:Connect(function(v)

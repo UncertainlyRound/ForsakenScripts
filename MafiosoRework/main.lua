@@ -1,13 +1,14 @@
 local oldassets = require(game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l.Config)
-game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l.Config:Destroy() game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiosoC00l.Config:Clone().Parent = game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l
-game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l.Behavior:Destroy() game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiosoC00l.Behavior:Clone().Parent = game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l
+game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l.Config:Destroy() game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd["#MafiosoC00l"].Config:Clone().Parent = game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l
+game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l.Behavior:Destroy() game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd["#MafiosoC00l"].Behavior:Clone().Parent = game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l
+game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd["#MafiosoC00l"].CameraRig:Clone().Parent = game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l
+game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd["#MafiosoC00l"].Behavior2:Clone().Parent = game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l
 local rigsource = game:GetObjects("rbxassetid://114748682440378")[1]
 rigsource.Parent = game.ReplicatedStorage
 local emoteTrack
 local emoteSound1
-local emoteSound2
 local emoting = false
-local assets = require(game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiosoC00l.Config)
+local assets = require(game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd["#MafiosoC00l"].Config)
 local minions = assets.Mafiasos
 local emoteButton
 local fakeEmoteButton
@@ -32,7 +33,6 @@ game:GetService("UserInputService").InputBegan:Connect(function(input)
 		if emoteTrack then
 			emoteTrack:Stop()
 			emoteSound1:Stop()
-			emoteSound2:Stop()
 		end
 	end
 end)
@@ -105,6 +105,7 @@ game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
 	if char.Name == "c00lkidd" and game.Players.LocalPlayer.PlayerData.Equipped.Skins.c00lkidd.Value == "MafiasoC00l" then
 		print("activated")
 		active = true
+		task.wait(0.25)
 		task.spawn(setup)
 	else
 		print("unactivated")
@@ -129,14 +130,9 @@ game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
 	if fakeEmoteButton then
 		fakeEmoteButton.IconButton.Menu.IconSpot.ClickRegion.MouseButton1Down:Connect(function()
 			emoting = false
-			fakeEmoteButton.Parent = game.ReplicatedStorage
 			if emoteTrack then
 				emoteTrack:Stop()
 				emoteSound1:Stop()
-				emoteSound2:Stop()
-			end
-			if emoteButton then
-				emoteButton.Parent = game.Players.LocalPlayer.PlayerGui.TopbarStandard.Holders.Left
 			end
 		end)
 	end
@@ -155,8 +151,7 @@ hook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
             			emoteTrack.Looped = true
             			emoteTrack.Priority = Enum.AnimationPriority.Action4
             			emoteTrack:Play()
-            			emoteSound1 = playSound(assets.Emotes.Animations.Snap.SFX[1], 0.5, game.Players.LocalPlayer.Character.PrimaryPart, true)
-						emoteSound2 = playSound(assets.Emotes.Animations.Snap.SFX[2], 0.5, game.Players.LocalPlayer.Character.PrimaryPart, true)
+            			emoteSound1 = playSound(assets.Emotes.Animations.Snap.SFX, 0.5, game.Players.LocalPlayer.Character.PrimaryPart, true)
 						if emoteButton then
 							emoteButton.Parent = game.ReplicatedStorage
 						end
@@ -168,6 +163,10 @@ hook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
             				game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 6
             			until emoting == false or game.Players.LocalPlayer.Character.Parent == nil
             			emoting = false
+            			fakeEmoteButton.Parent = game.ReplicatedStorage
+            			if emoteButton then
+							emoteButton.Parent = game.Players.LocalPlayer.PlayerGui.TopbarStandard.Holders.Left
+						end
             		end
             	end
        	end
@@ -181,7 +180,6 @@ game:GetService("UserInputService").InputBegan:Connect(function(input)
 		if emoteTrack then
 			emoteTrack:Stop()
 			emoteSound1:Stop()
-			emoteSound2:Stop()
 		end
 	end
 end)

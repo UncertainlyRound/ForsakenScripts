@@ -131,7 +131,7 @@ game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
 		fakeEmoteButton.IconButton.Menu.IconSpot.ClickRegion.MouseButton1Down:Connect(function()
 			emoting = false
 			if emoteTrack then
-				emoteTrack:Stop()
+				emoteTrack:Stop(0)
 				emoteSound1:Stop()
 			end
 		end)
@@ -150,7 +150,7 @@ hook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
             			emoteTrack = game.Players.LocalPlayer.Character.Humanoid.Animator:LoadAnimation(anim)
             			emoteTrack.Looped = true
             			emoteTrack.Priority = Enum.AnimationPriority.Action4
-            			emoteTrack:Play()
+            			emoteTrack:Play(0)
             			emoteSound1 = playSound(assets.Emotes.Animations.Snap.SFX, 0.5, game.Players.LocalPlayer.Character.PrimaryPart, true)
 						if emoteButton then
 							emoteButton.Parent = game.ReplicatedStorage

@@ -3,7 +3,7 @@ game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l.Config:Destroy(
 game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l.Behavior:Destroy() game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd["#MafiosoC00l"].Behavior:Clone().Parent = game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l
 game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd["#MafiosoC00l"].CameraRig:Clone().Parent = game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l
 game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd["#MafiosoC00l"].Behavior2:Clone().Parent = game.ReplicatedStorage.Assets.Skins.Killers.c00lkidd.MafiasoC00l
-local rigsource = game:GetObjects("rbxassetid://114748682440378")[1]
+local rigsource = game:GetObjects("rbxassetid://100745570500653")[1]
 rigsource.Parent = game.ReplicatedStorage
 local emoteTrack
 local emoteSound1
@@ -158,10 +158,12 @@ hook = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
 						if fakeEmoteButton then
 							fakeEmoteButton.Parent = game.Players.LocalPlayer.PlayerGui.TopbarStandard.Holders.Left
 						end
+						local char = game.Players.LocalPlayer.Character
             			repeat
             				task.wait()
             				game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 6
-            			until emoting == false or game.Players.LocalPlayer.Character.Parent == nil
+            			until emoting == false or char.Parent == nil
+            			print("stopped")
             			emoting = false
             			fakeEmoteButton.Parent = game.ReplicatedStorage
             			if emoteButton then

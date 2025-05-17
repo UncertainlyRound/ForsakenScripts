@@ -39,7 +39,7 @@ end)
 
 function setup()
 	local rig = rigsource:Clone()
-	rig.Parent = workspace
+	rig.Parent = game.Players.LocalPlayer.Character
 	local parttable = {}
 	for i, v in ipairs(rig:GetChildren()) do
 		if v:IsA("BasePart") then
@@ -50,7 +50,7 @@ function setup()
 	end
 	game.Players.LocalPlayer.Character["Left Arm"].WalkieTalkie.Part0 = game.Players.LocalPlayer.Character["Right Arm"]
 	for i, v in ipairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-		if v:IsA("BasePart") then
+		if v:IsA("BasePart") and not v:FindFirstAncestor("Mafioso") then
 			if v.Name ~= "firebrand" and v.Name ~= "WalkieTalkie" then
 					v.Transparency = 1
 					v.Changed:Connect(function(str)
@@ -105,7 +105,7 @@ game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
 	if char.Name == "c00lkidd" and game.Players.LocalPlayer.PlayerData.Equipped.Skins.c00lkidd.Value == "MafiasoC00l" then
 		print("activated")
 		active = true
-		task.wait(0.25)
+--		task.wait(0.25)
 		task.spawn(setup)
 	else
 		print("unactivated")

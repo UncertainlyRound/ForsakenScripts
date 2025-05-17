@@ -199,13 +199,6 @@ workspace.Map.Ingame.ChildAdded:Connect(function(v)
 					val.Changed:Connect(function(str)
 						if str == "Transparency" then
 							local trans = val.Transparency
-							for index, value in ipairs(minion:GetDescendants()) do
-								if value:IsA("BasePart") then
-									if value.Transparency < 1 then
-									value.Transparency = trans
-									end
-								end
-							end
 							val.Transparency = 1
 						end
 					end)
@@ -223,13 +216,6 @@ workspace.Map.Ingame.ChildAdded:Connect(function(v)
 					val.Changed:Connect(function(str)
 						if str == "Transparency" then
 							local trans = val.Transparency
-							for index, value in ipairs(minion:GetDescendants()) do
-								if value:IsA("BasePart") then
-								if value.Transparency < 1 then
-									value.Transparency = trans
-								end
-								end
-							end
 							val.Transparency = 1
 						end
 					end)
